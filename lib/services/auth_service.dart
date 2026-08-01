@@ -6,7 +6,7 @@ class AuthService {
   final _storage = const FlutterSecureStorage();
 
   Future<bool> login(String email, String password) async {
-    final url = Uri.parse('http://192.168.1.168:8080/api/login_check');
+    final url = Uri.parse('http://192.168.1.41:8080/api/login_check');
 
     try {
       final response = await http.post(
@@ -16,7 +16,7 @@ class AuthService {
           'email': email,
           'password': password,
         }),
-      );
+      ).timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200){
         final data = jsonDecode(response.body);
