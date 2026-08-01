@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kanji_mobile/screens/home_screen.dart';
 import '../services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -38,7 +39,10 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     if (success) {
-      print("🎉 Connexion réussie ! Le Token est sauvegardé.");
+      Navigator.pushReplacement(
+        context, 
+        MaterialPageRoute(builder: (context) => const HomeScreen())
+        );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
