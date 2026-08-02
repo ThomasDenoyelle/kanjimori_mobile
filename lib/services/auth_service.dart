@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class AuthService {
   final _storage = const FlutterSecureStorage();
@@ -37,7 +38,19 @@ class AuthService {
   }
 
   Future<bool> isLoggedIn() async {
-    final isLogged = await _storage.read(key: 'jwt');
-    return isLogged != null ? true : false;
+    final token = await _storage.read(key: 'jwt');
+  
+    if (token == null) {
+      return false;
+    }
+
+    bool isExpired = JwtDecoder.isExpired(token);
+
+    if (isExpired) {
+      await logout();
+      return false;
+    }
+
+    return true;
   }
 }
