@@ -1,0 +1,22 @@
+class Quiz {
+  final int id;
+  final String title;
+  final bool isPublic;
+  final DateTime createdAt;
+
+  Quiz({
+      required this.id,
+      required this.title,
+      required this.isPublic,
+      required this.createdAt
+  });
+
+  factory Quiz.fromJson(Map<String, dynamic> json) {
+    return Quiz(
+      id: json['id'] as int,
+      title: json['title'] as String,
+      isPublic: json['isPublic'] ?? false, 
+      createdAt: DateTime.parse(json['createdAt'] as String),
+    );
+  }
+}
