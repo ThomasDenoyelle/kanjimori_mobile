@@ -14,6 +14,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final AuthService _authService = AuthService();
   bool _isLoading = false;
+  bool _obscurePassword = true;
 
   @override
   void dispose() {
@@ -56,28 +57,152 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email')
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Mot de passe'),
-              obscureText: true,
-            ),
-            _isLoading ? const CircularProgressIndicator() : ElevatedButton(
-              onPressed: _login,
-              child: const Text('Se connecter'),
-              )
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color.fromARGB(255, 207, 203, 208),
+              Color.fromARGB(255, 184, 140, 190),
+            ],
+          ),
+        ),
+        child: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Center(
+                
+                child: Column(
+                  children: [
+                    Text(
+                      'KanjiMori',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        shadows: [
+                          Shadow(
+                            color: Colors.black26,
+                            offset: Offset(2, 2),
+                            blurRadius: 4,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      '漢字森',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        shadows: [
+                          Shadow(
+                            color: Colors.black26,
+                            offset: Offset(2, 2),
+                            blurRadius: 4,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+              ),
 
-          ],
+              Expanded(
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+
+                      TextField(
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.email),
+                          labelText: 'Email',
+                          labelStyle: TextStyle(
+                            fontSize: 18
+                          ),
+                          filled: true,
+                          fillColor: Colors.white.withValues(alpha: 0.30),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(12),                  
+                          ),
+                        )
+                      ),
+
+                      SizedBox(
+                        height: 12,
+                      ),
+
+                      TextField(
+                        controller: _passwordController,
+                        obscureText: _obscurePassword,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.key),
+                          labelText: 'Mot de passe',
+                          labelStyle: TextStyle(
+                            fontSize: 18
+                          ),
+                          filled: true,
+                          fillColor: Colors.white.withValues(alpha: 0.30),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _obscurePassword = !_obscurePassword;
+                              });
+                            }, 
+                            icon: Icon(
+                              _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                            ) 
+                          ),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(12),                  
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: 12,
+                      ),
+
+                      _isLoading ? CircularProgressIndicator() : SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.deepPurpleAccent.withValues(alpha: 0.90), 
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)
+                            )
+                          ),
+                        icon: Icon(
+                          Icons.login,
+                          color: Colors.white,
+                          ),
+                        onPressed: _login,
+                        label: Text(
+                          'Se connecter',
+                          style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      )
+                    ],
+                    ),
+                  )
+                )
+              ),
+            ],
+          ),
         ),
-        ),
+
+      ),
+      )
     );
   }
 }
