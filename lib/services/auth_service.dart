@@ -35,4 +35,9 @@ class AuthService {
   Future<void> logout() async {
     await _storage.delete(key: 'jwt');
   }
+
+  Future<bool> isLoggedIn() async {
+    final isLogged = await _storage.read(key: 'jwt');
+    return isLogged != null ? true : false;
+  }
 }
