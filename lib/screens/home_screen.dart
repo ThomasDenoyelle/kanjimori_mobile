@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kanji_mobile/models/quiz_attempt.dart';
 import 'package:kanji_mobile/services/auth_service.dart';
 import 'login_screen.dart';
 import '../services/api_service.dart';
@@ -13,12 +14,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final ApiService _apiService = ApiService();
-  late Future<List<Quiz>> _quizzesFuture;
+  late Future<List<QuizAttempt>> _attemptsFuture;
 
   @override
   void initState() {
     super.initState();
-    _quizzesFuture = _apiService.fetchQuizzes();
+    _attemptsFuture = _apiService.fetchMyAttempts();
   }
 
   Future<void> _confirmLogout(BuildContext context) async {
@@ -60,6 +61,19 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Map<String, dynamic> _getModeDesign(String mode) {
+    switch (mode) {
+      case 'mode_kanji':
+        return {'text': 'Mode Kanji', 'icon': Icons.draw, 'color': Colors.redAccent};
+      case 'mode_reading':
+        return {'text': 'Mode Lecture', 'icon': Icons.record_voice_over, 'color': Colors.blueAccent};
+      case 'mode_translation':
+        return {'text': 'Mode Traduction', 'icon': Icons.translate, 'color': Colors.green};
+      default:
+        return {'text': 'Mode Classique', 'icon': Icons.videogame_asset, 'color': Colors.deepPurple};
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,8 +87,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         ),
-      body: FutureBuilder<List<Quiz>>(
-  future: _quizzesFuture,
+      body: FutureBuilder<List<QuizAttempt>>(
+  future: _attemptsFuture,
   builder: (context, snapshot) {
     
     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -84,22 +98,82 @@ class _HomeScreenState extends State<HomeScreen> {
       return Center(child: Text('Erreur : ${snapshot.error}'));
     }
     if (!snapshot.hasData || snapshot.data!.isEmpty) {
-      return const Center(child: Text('Aucun quiz disponible.'));
+      return const Center(child: Text('Aucune tentative pour le moment.'));
     }
     
-    final quizzes = snapshot.data!;
+    final attempts = snapshot.data!;
     
     return ListView.builder(
-      itemCount: quizzes.length,
+      itemCount: attempts.length,
       itemBuilder: (context, index) {
-        final quiz = quizzes[index];
+        final quizAttempt = attempts[index];
+        final modeDesign = _getModeDesign(quizAttempt.mode);
+        final double progress = quizAttempt.maxScore > 0 
+            ? quizAttempt.answersCount / quizAttempt.maxScore 
+            : 0.0;
 
-        return ListTile(
-          title: Text(quiz.title),
-          subtitle: Text('${quiz.questions.length} questions'),
-          leading: Icon(Icons.quiz),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () { print('Clic sur le quiz ${quiz.id}'); }
+        return Card(
+          elevation: 2,
+          margin: const EdgeInsets.only(bottom: 16),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: ListTile(
+              leading: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: modeDesign['color'].withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(modeDesign['icon'], color: modeDesign['color']),
+              ),
+              
+              title: Text(
+                quizAttempt.quiz.title,
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 6),
+                  
+                  Text(
+                    modeDesign['text'],
+                    style: TextStyle(color: Colors.grey[600], fontWeight: FontWeight.w500),
+                  ),
+                  
+                  const SizedBox(height: 12),
+                  
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: LinearProgressIndicator(
+                            value: progress,
+                            minHeight: 8,
+                            backgroundColor: Colors.deepPurple.withOpacity(0.15),
+                            color: Colors.deepPurple,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        '${quizAttempt.answersCount} / ${quizAttempt.maxScore}',
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              
+              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+              onTap: () {
+                print('Clic sur le quiz ${quizAttempt.id}');
+              },
+            ),
+          ),
         );
       }
       ); 
