@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kanji_mobile/models/quiz_attempt.dart';
 import 'package:kanji_mobile/services/auth_service.dart';
 import 'package:kanji_mobile/widgets/common/confirm_dialog.dart';
+import 'package:kanji_mobile/widgets/common/gradient_background.dart';
 import 'package:kanji_mobile/widgets/quiz/quiz_attempt_card.dart';
 import 'login_screen.dart';
 import '../services/api_service.dart';
@@ -42,13 +43,16 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
         title: const Text('Accueil'),
+        backgroundColor: Colors.transparent,
         actions: <Widget>[
           ConfirmDialog()
         ],
-        ),
-      body: FutureBuilder<List<QuizAttempt>>(
+      ),
+      body: GradientBackground(
+        child: FutureBuilder<List<QuizAttempt>>(
         future: _attemptsFuture,
         builder: (context, snapshot) {
     
@@ -82,6 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
       ),
+      )
     );
   }
 }
