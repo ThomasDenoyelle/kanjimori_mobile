@@ -56,17 +56,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     return Scaffold(
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color.fromARGB(255, 207, 203, 208),
-              Color.fromARGB(255, 184, 140, 190),
+              colors.primaryContainer,
+              colors.secondaryContainer,
+              colors.surface,
             ],
           ),
         ),
@@ -125,7 +127,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           prefixIcon: Icon(Icons.email),
                           labelText: 'Email',
                           labelStyle: TextStyle(
-                            fontSize: 18
+                            fontSize: 18,
+                            color: Colors.white
                           ),
                           filled: true,
                           fillColor: Colors.white.withValues(alpha: 0.30),
@@ -147,7 +150,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           prefixIcon: Icon(Icons.key),
                           labelText: 'Mot de passe',
                           labelStyle: TextStyle(
-                            fontSize: 18
+                            fontSize: 18,
+                            color: Colors.white
                           ),
                           filled: true,
                           fillColor: Colors.white.withValues(alpha: 0.30),
@@ -176,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: double.infinity,
                         child: ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepPurpleAccent.withValues(alpha: 0.90), 
+                          backgroundColor: colors.primary, 
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12)
                             )
