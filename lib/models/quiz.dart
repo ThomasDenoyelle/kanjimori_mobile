@@ -20,7 +20,9 @@ class Quiz {
       id: json['id'] as int,
       title: json['title'] as String,
       isPublic: json['isPublic'] ?? false, 
-      createdAt: DateTime.parse(json['createdAt'] as String),
+      createdAt: json['createdAt'] != null 
+          ? DateTime.parse(json['createdAt'] as String) 
+          : DateTime.now(),
       questions: (json['questions'] as List<dynamic>?)
           ?.map((questionJson) => Question.fromJson(questionJson))
           .toList() ?? [],
