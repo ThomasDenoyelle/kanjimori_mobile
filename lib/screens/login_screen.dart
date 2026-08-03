@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kanji_mobile/screens/home_screen.dart';
 import '../services/auth_service.dart';
 
+import 'package:kanji_mobile/widgets/custom_text_field.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -78,7 +80,6 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             children: [
               Center(
-                
                 child: Column(
                   children: [
                     Text(
@@ -120,55 +121,33 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
 
-                      TextField(
+                      CustomTextField(
                         controller: _emailController,
+                        label: "Email",
+                        icon: Icons.email,
                         keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.email),
-                          labelText: 'Email',
-                          labelStyle: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white
-                          ),
-                          filled: true,
-                          fillColor: Colors.white.withValues(alpha: 0.30),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(12),                  
-                          ),
-                        )
                       ),
 
                       SizedBox(
                         height: 12,
                       ),
 
-                      TextField(
+                      CustomTextField(
                         controller: _passwordController,
+                        label: "Mot de passe",
+                        icon: Icons.key,
                         obscureText: _obscurePassword,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.key),
-                          labelText: 'Mot de passe',
-                          labelStyle: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword 
+                              ? Icons.visibility 
+                              : Icons.visibility_off,
                           ),
-                          filled: true,
-                          fillColor: Colors.white.withValues(alpha: 0.30),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _obscurePassword = !_obscurePassword;
-                              });
-                            }, 
-                            icon: Icon(
-                              _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                            ) 
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(12),                  
-                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
                         ),
                       ),
 
