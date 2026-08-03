@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kanji_mobile/models/quiz_attempt.dart';
 import 'package:kanji_mobile/services/auth_service.dart';
+import 'package:kanji_mobile/widgets/quiz/quiz_attempt_card.dart';
 import 'login_screen.dart';
 import '../services/api_service.dart';
-import '../models/quiz.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -74,6 +74,9 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,79 +107,21 @@ class _HomeScreenState extends State<HomeScreen> {
     final attempts = snapshot.data!;
     
     return ListView.builder(
-      itemCount: attempts.length,
-      itemBuilder: (context, index) {
-        final quizAttempt = attempts[index];
-        final modeDesign = _getModeDesign(quizAttempt.mode);
-        final double progress = quizAttempt.maxScore > 0 
-            ? quizAttempt.answersCount / quizAttempt.maxScore 
-            : 0.0;
+  padding: const EdgeInsets.all(16),
+  itemCount: attempts.length,
 
-        return Card(
-          elevation: 2,
-          margin: const EdgeInsets.only(bottom: 16),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: ListTile(
-              leading: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: modeDesign['color'].withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(modeDesign['icon'], color: modeDesign['color']),
-              ),
-              
-              title: Text(
-                quizAttempt.quiz.title,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 6),
-                  
-                  Text(
-                    modeDesign['text'],
-                    style: TextStyle(color: Colors.grey[600], fontWeight: FontWeight.w500),
-                  ),
-                  
-                  const SizedBox(height: 12),
-                  
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: LinearProgressIndicator(
-                            value: progress,
-                            minHeight: 8,
-                            backgroundColor: Colors.deepPurple.withOpacity(0.15),
-                            color: Colors.deepPurple,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Text(
-                        '${quizAttempt.answersCount} / ${quizAttempt.maxScore}',
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              
-              trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-              onTap: () {
-                print('Clic sur le quiz ${quizAttempt.id}');
-              },
-            ),
-          ),
-        );
-      }
-      ); 
+  itemBuilder: (context, index) {
+
+    final attempt = attempts[index];
+
+    return QuizAttemptCard(
+      quizAttempt: attempt,
+      onTap: () {
+        print("Quiz ${attempt.id}");
+      },
+    );
+  },
+);
   },
       ),
     );
