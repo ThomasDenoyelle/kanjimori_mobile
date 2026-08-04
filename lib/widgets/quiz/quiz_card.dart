@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kanji_mobile/models/quiz.dart';
-import '../../models/quiz_attempt.dart';
 
 class QuizCard extends StatelessWidget {
   final Quiz quiz;

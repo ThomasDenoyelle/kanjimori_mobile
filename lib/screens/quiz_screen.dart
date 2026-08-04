@@ -22,6 +22,7 @@ class _QuizScreenState extends State<QuizScreen> {
             labelStyle: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
+              color: Colors.white
             ),
             unselectedLabelStyle: const TextStyle(
               fontSize: 16,
