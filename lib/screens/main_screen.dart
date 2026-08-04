@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kanji_mobile/screens/home_screen.dart';
+import 'package:kanji_mobile/screens/quiz_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -13,7 +14,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _pages = [
     const HomeScreen(),
-    const Center(child: Text('Explorer les quiz')),
+    const QuizScreen(),
     const Center(child: Text('Explorer les dossiers')),
     const Center(child: Text('Mon Profil')),
   ];
