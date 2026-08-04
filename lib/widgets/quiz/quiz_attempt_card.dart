@@ -47,6 +47,7 @@ class QuizAttemptCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
 
     final mode = getModeDesign(quizAttempt.mode);
 
@@ -56,68 +57,92 @@ class QuizAttemptCard extends StatelessWidget {
 
 
     return Card(
-      child: ListTile(
+      color: colors.secondary.withValues(alpha: 0.25),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
         onTap: onTap,
-
-        leading: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: mode['color'].withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12),
-          ),
-
-          child: Icon(
-            mode['icon'],
-            color: mode['color'],
-          ),
-        ),
-
-
-        title: Text(
-          quizAttempt.quiz.title,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
-
-
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-
-            const SizedBox(height: 6),
-
-            Text(
-              mode['text'],
-            ),
-
-
-            const SizedBox(height: 12),
-
-
-            Row(
-              children: [
-
-                Expanded(
-                  child: LinearProgressIndicator(
-                    value: progress,
-                  ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: mode['color'].withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-
-                const SizedBox(width: 12),
-
-                Text(
-                  '${quizAttempt.answersCount}/${quizAttempt.maxScore}',
+                child: Icon(
+                  mode['icon'],
+                  color: mode['color'],
+                  size: 28,
                 ),
-              ],
-            )
-          ],
-        ),
+              ),
+              
+              const SizedBox(width: 16),
 
-        trailing: const Icon(
-          Icons.arrow_forward_ios,
-          size: 16,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      quizAttempt.quiz.title,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    
+                    const SizedBox(height: 4),
+                    
+                    Text(
+                      mode['text'],
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    
+                    const SizedBox(height: 12),
+                    
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: LinearProgressIndicator(
+                              value: progress,
+                              minHeight: 8,
+                              backgroundColor: Colors.white.withValues(alpha: 0.15),
+                              color: colors.secondary,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Text(
+                          '${quizAttempt.answersCount} / ${quizAttempt.maxScore}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(width: 16),
+
+              const Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+                color: Colors.grey,
+              ),
+              
+            ],
+          ),
         ),
       ),
     );
