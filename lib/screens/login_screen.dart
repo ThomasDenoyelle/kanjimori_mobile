@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kanji_mobile/screens/home_screen.dart';
+import 'package:kanji_mobile/screens/main_screen.dart';
 import 'package:kanji_mobile/widgets/common/gradient_background.dart';
 import '../services/auth_service.dart';
 
@@ -45,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (success) {
       Navigator.pushReplacement(
         context, 
-        MaterialPageRoute(builder: (context) => const HomeScreen())
+        MaterialPageRoute(builder: (context) => const MainScreen())
         );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

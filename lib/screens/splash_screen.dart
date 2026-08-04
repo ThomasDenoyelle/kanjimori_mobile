@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kanji_mobile/screens/main_screen.dart';
 import 'login_screen.dart';
 import '../services/auth_service.dart';
 import 'home_screen.dart';
@@ -29,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (isLoggedIn) {
         Navigator.pushReplacement(
           context, 
-          MaterialPageRoute(builder: (context) => const HomeScreen())
+          MaterialPageRoute(builder: (context) => const MainScreen())
         );
       } else {
         Navigator.pushReplacement(
