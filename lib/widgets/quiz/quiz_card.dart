@@ -16,7 +16,12 @@ class QuizCard extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
 
     return Card(
-      color: colors.secondary.withValues(alpha: 0.25),
+      color: colors.secondary.withValues(alpha: 0.15),
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(color: colors.secondary.withValues(alpha: 0.3), width: 1),
+      ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
@@ -25,6 +30,19 @@ class QuizCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: colors.primary.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  Icons.menu_book,
+                  color: colors.secondary.withValues(alpha: 0.6),
+                  size: 24,
+                ),
+              ),
                 
               const SizedBox(width: 16),
 
@@ -38,22 +56,36 @@ class QuizCard extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     
+                    const SizedBox(height: 6),
                     
-                    const SizedBox(height: 12),
-                    
-                  
+                    Row(
+                      children: [
+                        Icon(Icons.question_answer, size: 14, color: Colors.grey[600]),
+                        const SizedBox(width: 4),
+                        Text(
+                          '${quiz.questions.length} questions',
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
 
               const SizedBox(width: 16),
 
-              const Icon(
+              Icon(
                 Icons.arrow_forward_ios,
-                size: 16,
-                color: Colors.grey,
+                size: 28,
+                color: Colors.white,
               ),
               
             ],
