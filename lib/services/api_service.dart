@@ -9,7 +9,7 @@ import 'package:kanji_mobile/models/quiz_attempt.dart';
 class ApiService {
   final _storage = const FlutterSecureStorage();
 
-  Future<List<Quiz>> fetchQuizzes(String? authorUrl, String? searchTitle, bool? isPublic) async {
+  Future<List<Quiz>> fetchQuizzes(String? authorUrl, String? searchTitle, bool? isPublic, {int page = 1}) async {
     final token = await _storage.read(key: 'jwt');
 
     final Map<String, String> queryParameters = {};
